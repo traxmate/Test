@@ -27,8 +27,6 @@ namespace Test.Controllers
 				}
 			}
 
-			bool random = false;
-
 			return RedirectToAction("Index", "Home");
 		}
 	}

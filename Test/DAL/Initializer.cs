@@ -6,7 +6,7 @@ using Test.Models;
 
 namespace Test.DAL
 {
-	public class Initializer : System.Data.Entity.DropCreateDatabaseAlways<ProductsContext>
+	public class Initializer : System.Data.Entity.DropCreateDatabaseIfModelChanges<ProductsContext>
 	{
 		public void ForceSeed()
 		{
