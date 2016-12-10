@@ -1,0 +1,72 @@
+﻿@model Test.Models.GamesRepository
+
+@{
+    ViewBag.Title = "Index";
+
+    var game = Model.GetAllGames().First();
+}
+
+<a href="@Url.Action("Quantity", "Calculate", new { quantity = 10, platformId = 1337 })">Hello</a>
+
+<section id="gameSelect" class="btn-group pull-right">
+    @foreach (var item in Model.GetAllGames())
+    {
+        <button class="btn btn-default">@item.Name</button>
+    }
+</section>
+
+<section id="main">
+    <header>
+        <h3><strong>@game.Name</strong></h3>
+    </header>
+    <section id="storeSelect" class="btn-group">
+        @foreach (var store in game.Stores)
+        {
+            <button class="btn btn-primary">@store.Name</button>
+        }
+    </section>
+
+    <br />
+    <br />
+    <section id="moduleList">
+        @foreach (var module in game.Modules)
+        {
+            <table class="table">
+                <tr>
+                    <th>@module.Name</th>
+                    <th>Original Price</th>
+                    <th>Sale Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th></th>
+                </tr>
+
+                @foreach (var platform in module.Platforms)
+                {
+                    var quantityId = "quantity-" + platform.Id.ToString();
+
+                    <tr>
+                        <td>@platform.Name</td>
+                        <td>@platform.OriginalPrice.ToString("C", ViewBag.Culture)</td>
+                        <td class="sale-text">@platform.SalePrice.ToString("C", ViewBag.Culture)</td>
+                        <td>
+                            <input id="@quantityId" type="number" value="@platform.Quantity.ToString()" />
+                        </td>
+                        <td>@platform.Total.ToString("C", ViewBag.Culture)</td>
+                        <td>
+                            <button onclick="Submit('@quantityId', '@module.Name', '@platform.Name')" class="btn btn-default">Submit</button>
+                        </td>
+                    </tr>
+}
+                <tr>
+                    <td><a>Add platform</a></td>
+                </tr>
+            </table>
+        }
+    </section>
+</section>
+
+@section scripts
+{
+    <script src="~/MyScripts/submit-row.js"></script>
+}
